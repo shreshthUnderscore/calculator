@@ -2,7 +2,17 @@ let firstNumber = '';
 let secondNumber = '';
 let isSecondNumber = false;
 let operand = '';
-let stringOfNumbers = '';
+let numberString = '';
+
+//code to change the contents of the screen
+
+const screenStringElement = document.querySelector('.screen-string');
+const screenAnswerElement = document.querySelector('.screen-answer');
+
+function screenTextUpdater(screenElement, textContent)
+{
+    screenElement.textContent = textContent;
+}
 
 
 
@@ -10,7 +20,7 @@ const numbersDiv = document.querySelector(".numbers");
 const numberButtons = numbersDiv.querySelectorAll("button");
 
 numberButtons.forEach(element => {
-    element.addEventListener('onclick', () => 
+    element.addEventListener('click', () => 
     {
         const value = element.className;
 
@@ -18,9 +28,11 @@ numberButtons.forEach(element => {
         {
             if(firstNumber && secondNumber && operand)
             {
-                let answer = mathematics(firstNumber, secondNumber, operand);
+                let answer = String(mathematics(firstNumber, secondNumber, operand));
 
-                firstNumber = answer;
+                screenTextUpdater(screenAnswerElement, String(answer));
+
+                firstNumber = String(answer);
                 secondNumber = '';
                 isSecondNumber = true;
 
@@ -32,26 +44,39 @@ numberButtons.forEach(element => {
             if(!isSecondNumber)
             {
                 firstNumber += value;
+                numberString += value;
+                screenTextUpdater(screenStringElement, numberString);
             }
             else
             {
                 secondNumber += value;
+                numberString += value;
+                screenTextUpdater(screenStringElement, numberString);
             }
         }
     });
 });
 
+//code to get the operator
+
 const operationsDiv = document.querySelector(".operations");
 const operationButtons = operationsDiv.querySelectorAll("button");
 
-operationButtons.forEach(element => (
-    element.addEventListener('onclick', () => {
+operationButtons.forEach(element =>
+{
+    element.addEventListener('click', () => {
         const operandValue = element.className;
         
         operand = operandValue;
+
+        numberString += operand;
+
+        screenTextUpdater(screenStringElement, numberString);
         isSecondNumber = true;
     });
-));
+});
+
+
 
 
 
