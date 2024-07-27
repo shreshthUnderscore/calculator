@@ -1,103 +1,86 @@
 body
 {
     display: flex;
-    margin: 0px;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
     height: 100vh;
+}
+
+button
+{
+    padding: 0px;
+    margin: 0px;
+    border: 2px solid black;
+    border-radius: 5%;
 }
 
 .main-body
 {
     display: flex;
-    flex-direction: column;
-    background-color: aquamarine;
-    width: 35%;
-    height: 75%;
-    padding: 1%;
-    gap: 1%;
-}
-
-.top
-{
-    display: flex;
-    height: 20%;
-    width: 100%;
-    gap: 1%;
-}
-
-.idfk
-{
-    display: flex;
-    flex: 3;
-    width: 75%;
-}
-
-.screen-string
-{
-    flex: 3;
-    background-color: white;
-    font-family: 'Roboto Mono', Courier, monospace;
-    text-align: right;
-}
-
-.idfk2
-{
-    display: flex;
-    flex: 1;
-    width: 25%;
-}
-
-.clear-button
-{
-    flex: 1;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-}
-
-.bottom-div
-{
-    display: flex;
-    width: 100%;
+    flex: 0 1 35%;
     height: 80%;
-    gap: 1%;
+    background-color: #453C67;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+    border-radius: 1vmin;
 }
 
-.numbers
+.background
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: #03001C;
+    padding: 1%;
+    border-radius: 1vmin;
+}
+
+.left-side
 {
     display: flex;
-    flex: 1;
+    flex: 1 1 75%;
     flex-wrap: wrap;
-    width: 75%;
-    align-items: center;
-    justify-content: center;
+    height: 100%;
 }
 
-.numbers button
+.screen
+{
+    background-color: white;
+    flex: 1 1 100%;
+    height: calc(20% - 4px);
+    border-radius: 0.8vmin;
+    border: 2px solid black;
+}
+
+.left-side button
 {
     flex: 1 1 33%;
-    height: 25%;
-    padding: 0px;
-    border: 0px;
-    margin: 0px;
-
+    height: 20%;
+    background-color: #46C2CB;
 }
 
-.operations
+.right-side
 {
     display: flex;
-    flex-direction: column;
-    width: 25%;
+    flex: 1 1 25%;
+    flex-wrap: wrap;
+    height: 100%;
 }
 
-.operations button
+.right-side .AC
+{
+    background-color: #F2F7A1 ;
+}
+
+.right-side button
 {
     flex: 1 1 100%;
-    padding: 0px;
-    border: 0px;
-    margin: 0px;
+    background-color: #6D67E4;
+    
 }
+
+
