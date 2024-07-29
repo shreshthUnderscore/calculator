@@ -2,96 +2,171 @@ let firstNumber = '';
 let secondNumber = '';
 let isSecondNumber = false;
 let operand = '';
-let numberString = '';
 
-//code to change the contents of the screen
 
-const screenStringElement = document.querySelector('.screen-string');
-const screenAnswerElement = document.querySelector('.screen-answer');
 
-function screenTextUpdater(screenElement, textContent)
+const screenElement = document.querySelector('.screen');
+const leftSideButtons = document.querySelectorAll(".left-side button");
+const equalsToButton = document.querySelector('.equalsTo');
+const operationButtons = document.querySelectorAll(".right-side button");
+
+function screenTextUpdater(textContent)
 {
     screenElement.textContent = textContent;
 }
-
-
-
-const numbersDiv = document.querySelector(".numbers");
-const numberButtons = numbersDiv.querySelectorAll("button");
-
-numberButtons.forEach(element => {
-    element.addEventListener('click', () => 
-    {
-        const value = element.className;
-
-        if(value === '=')
-        {
-            if(firstNumber && secondNumber && operand)
-            {
-                let answer = String(mathematics(firstNumber, secondNumber, operand));
-
-                screenTextUpdater(screenAnswerElement, String(answer));
-
-                firstNumber = String(answer);
-                secondNumber = '';
-                isSecondNumber = true;
-
-                return answer;
-            }
-        }
-        else
-        {
-            if(!isSecondNumber)
-            {
-                firstNumber += value;
-                numberString += value;
-                screenTextUpdater(screenStringElement, numberString);
-            }
-            else
-            {
-                secondNumber += value;
-                numberString += value;
-                screenTextUpdater(screenStringElement, numberString);
-            }
-        }
-    });
-});
-
-//code to get the operator
-
-const operationsDiv = document.querySelector(".operations");
-const operationButtons = operationsDiv.querySelectorAll("button");
-
-operationButtons.forEach(element =>
-{
-    element.addEventListener('click', () => {
-        const operandValue = element.className;
-        
-        operand = operandValue;
-
-        numberString += operand;
-
-        screenTextUpdater(screenStringElement, numberString);
-        isSecondNumber = true;
-    });
-});
-
-
-
-
 
 function mathematics(firstNumber, secondNumber, operand)
 {
     switch(operand)
     {
         case "+":
-            return (+firstNumber) + (+secondNumber);
+            return Number(firstNumber) + Number(secondNumber);
         case "-":
-            return (+firstNumber) - (+secondNumber);
+            return Number(firstNumber) - Number(secondNumber);
         case 'x':
-            return (+firstNumber) * (+secondNumber);
+            return Number(firstNumber) * Number(secondNumber);
         case '/':
-            return (+firstNumber) / (+secondNumber);
+            return Number(firstNumber) / Number(secondNumber);
     }
 };
 
+function numberOff()
+{
+    leftSideButtons.forEach((element) => 
+    {
+        element.disabled = true;
+    })
+};
+
+function numberOn()
+{
+    leftSideButtons.forEach((element) => 
+    {
+        if(element.className != 'equalsTo')
+        {
+            element.disabled = false;
+        }
+        
+    })
+}
+
+function answerOff()
+{
+    equalsToButton.disabled = true;
+}
+
+function answerOn()
+{
+    equalsToButton.disabled = false;
+}
+
+answerOff();
+
+leftSideButtons.forEach((element) => {
+    element.addEventListener('click', () => 
+    {
+        const value = element.className;
+        
+        if(value === 'decimal')
+        {
+            if(!isSecondNumber)
+            {
+                if(firstNumber.includes('.'))
+                {
+                    return;
+                }
+                firstNumber += '.';
+                screenTextUpdater(firstNumber);
+            }
+            else
+            {
+                if(secondNumber.includes('.'))
+                {
+                    return;
+                }
+                secondNumber += '.';
+                screenTextUpdater(secondNumber);
+            }
+        }
+        else if(value === 'equalsTo')
+        {
+            if(firstNumber && secondNumber && operand)
+            {
+                let answer = String(mathematics(firstNumber, secondNumber, operand));
+                screenTextUpdater(String(answer));
+                
+                //disable numbers after answer is printed
+                numberOff();
+
+                firstNumber = answer;
+                secondNumber = '';
+            }
+        }
+        else
+        {
+            if(!isSecondNumber)
+            {   
+                firstNumber += value;
+                screenTextUpdater(firstNumber);
+            }
+            else
+            {
+                secondNumber += value;
+                screenTextUpdater(secondNumber);
+                answerOn();
+                
+            }
+        }
+    });
+});
+
+operationButtons.forEach(element =>
+    {
+        element.addEventListener('click', () => {
+            const operandValue = element.className;
+
+            if(operandValue === 'AC')
+            {
+                firstNumber = '';
+                secondNumber = '';
+                isSecondNumber = false;
+                operand = '';
+                numberOn();
+                answerOff();
+                screenTextUpdater(0);
+            }
+            else if(operandValue === '-' || operandValue === '+')
+            {
+                if(!firstNumber || firstNumber === '-' || firstNumber === '+')
+                {
+                    firstNumber = operandValue;
+                    screenTextUpdater(firstNumber);
+                }
+                else if (isSecondNumber)
+                {
+                    secondNumber = operandValue;
+                    screenTextUpdater(secondNumber);
+                }
+                else
+                {
+                    operand = operandValue;
+                    isSecondNumber = true;
+                    screenTextUpdater(operandValue);
+                    numberOn();
+                }
+            }
+            else
+            {
+                if(firstNumber.includes('-') && firstNumber.length > 1 || 
+                    firstNumber.includes('+') && firstNumber.length > 1 ||
+                    firstNumber.length > 0)
+                {
+                    operand = operandValue;
+                    isSecondNumber = true;
+                    screenTextUpdater(operandValue);
+                    numberOn();
+                }
+            }
+        });
+    });
+    
